@@ -1,0 +1,1 @@
+// module tự động quét thư mục /plugins/ và nạp các tools vào hệ thống.
