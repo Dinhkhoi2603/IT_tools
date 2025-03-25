@@ -2,6 +2,7 @@ D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\config\DemoCon
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\config\SecurityConfig.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\AuthController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\DemoController.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\UserController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\AuthResponse.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\LoginRequest.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\RegisterRequest.java

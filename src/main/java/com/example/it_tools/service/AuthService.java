@@ -7,6 +7,8 @@ import com.example.it_tools.model.Role;
 import com.example.it_tools.model.User;
 import com.example.it_tools.repository.UserRepository;
 import com.example.it_tools.security.JwtUtil;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -18,11 +20,13 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+    private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public AuthService(UserRepository userRepository, JwtUtil jwtUtil) {
+    public AuthService(UserRepository userRepository, JwtUtil jwtUtil, UserDetailsService userDetailsService) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
     }
 
     public String register(RegisterRequest request) {
@@ -59,7 +63,11 @@ public class AuthService {
         }
 
         logger.info("Login successful for user: {}", request.getUsername());
-        String token = jwtUtil.generateToken(user.getUsername());
+
+        // 🔥 Sửa lỗi: Lấy UserDetails từ userDetailsService trước khi tạo token
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+        String token = jwtUtil.generateToken(userDetails);
+
         return new AuthResponse(token);
     }
 }
