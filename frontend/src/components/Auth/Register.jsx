@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { register } from "../../services/authService";
-
+import { useNavigate } from "react-router-dom";
 const Register = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
     const [errors, setErrors] = useState({}); // Lưu trạng thái lỗi của các ô nhập liệu
-
+    const navigate = useNavigate();
     const validateForm = () => {
         let newErrors = {};
 
@@ -30,6 +30,8 @@ const Register = () => {
             await register(username, password);
             setMessage("Đăng ký thành công! Hãy đăng nhập.");
             setErrors({});
+            setTimeout(() => navigate("/login"), 1500);
+            // eslint-disable-next-line no-unused-vars
         } catch (err) {
             setMessage("Lỗi đăng ký, vui lòng thử lại!");
         }

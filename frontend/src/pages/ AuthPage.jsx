@@ -2,9 +2,12 @@ import { useState } from "react";
 import Login from "../components/Auth/Login";
 import Register from "../components/Auth/Register";
 import logo from "../assets/logo_it_tools.png";
+import { FaGithub } from "react-icons/fa";
 const AuthPage = () => {
     const [isLogin, setIsLogin] = useState(true);
-
+    const handleGitHubLogin = () => {
+        window.location.href = "http://localhost:8080/oauth2/authorization/github"; // 🔹 URL backend GitHub login
+    };
     return (
         <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-white to-yellow-100">
             {/* Logo */}
@@ -22,13 +25,8 @@ const AuthPage = () => {
 
                 {isLogin ? <Login /> : <Register />}
 
-                {/* Stay signed in & Forgot password */}
                 {isLogin && (
-                    <div className="flex justify-between items-center mt-4">
-                        <label className="flex items-center">
-                            <input type="checkbox" className="mr-2" />
-                            Stay signed in
-                        </label>
+                    <div className="flex justify-end mt-4">
                         <a href="#" className="text-blue-500 hover:underline">
                             Forgot password?
                         </a>
@@ -47,16 +45,24 @@ const AuthPage = () => {
                 </p>
 
                 {/* Divider */}
-                <div className="flex items-center mt-4">
+                {isLogin && (
+                    <div className="flex items-center mt-4">
                     <hr className="flex-grow border-gray-300" />
                     <span className="mx-2 text-gray-500">or</span>
                     <hr className="flex-grow border-gray-300" />
-                </div>
+                </div>)
+
+                }
 
                 {/* Nút Sign In / Sign Up */}
-                <button className="w-full bg-orange-500 text-white py-2 rounded mt-4 hover:bg-orange-600">
-                    {isLogin ? "Sign In" : "Sign Up"}
-                </button>
+                {isLogin && (
+                    <button
+                        onClick={handleGitHubLogin}
+                        className="w-full bg-gray-900 text-white py-2 rounded mt-4 hover:bg-gray-800 flex items-center justify-center gap-2"
+                    >
+                        <FaGithub size={20} /> Sign in with GitHub
+                    </button>
+                )}
             </div>
         </div>
     );

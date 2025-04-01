@@ -1,12 +1,20 @@
 // src/layouts/MainLayout.jsx
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Sidebar from "../components/layout/Sidebar";
 import Header from "../components/layout/Header";
 import { Outlet } from "react-router-dom";
-
+import { getUserProfile } from "../services/authService";
 const MainLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // mở sẵn
+    const [user, setUser] = useState(null);
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            const userProfile = await getUserProfile();
+            setUser(userProfile); // Cập nhật thông tin người dùng
+        };
 
+        fetchUserProfile();
+    }, []);
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
   };
@@ -28,7 +36,7 @@ const MainLayout = ({ children }) => {
           `}
       >
         {/* Header nhận toggleSidebar */}
-        <Header toggleSidebar={toggleSidebar} />
+        <Header toggleSidebar={toggleSidebar} userName={user}/>
 
         {/* Page Content */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-[#F1F5F9] dark:bg-gray-800 p-6">

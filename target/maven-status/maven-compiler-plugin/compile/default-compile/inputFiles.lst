@@ -1,7 +1,7 @@
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\config\DemoConfig.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\config\SecurityConfig.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\AuthController.java
-D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\DemoController.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\GitHubAuthController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\UserController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\AuthResponse.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\LoginRequest.java
@@ -10,9 +10,9 @@ D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\ItToolsApplica
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\model\Demo.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\model\Role.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\model\User.java
-D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\plugins\PluginLoader.java
-D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\plugins\tool1\tool1.java
-D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\plugins\tool2\tool2.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\plugins\common\BasePlugin.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\plugins\common\PluginLoader.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\plugins\common\ToolInterface.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\repository\DemoRepository.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\repository\UserRepository.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\security\JwtFilter.java

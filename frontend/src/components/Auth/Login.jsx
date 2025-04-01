@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { login } from "../../services/authService";
-
+import { useNavigate } from "react-router-dom";
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-
+    const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const data = await login(username, password);
             localStorage.setItem("token", data.token);
             alert("Đăng nhập thành công!");
+            setTimeout(() => navigate("/"), 1500);
         } catch (err) {
             setError("Sai tài khoản hoặc mật khẩu!");
         }
