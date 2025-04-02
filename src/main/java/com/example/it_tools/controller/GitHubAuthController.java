@@ -89,7 +89,7 @@ public class GitHubAuthController {
         System.out.println("Generated JWT Token: " + token);
 
         // 🔹 Chuyển hướng về Frontend với token
-        String frontendUrl = "http://localhost:5173/?token=" + token;
+        String frontendUrl = "http://localhost:5173/auth/github/callback?token=" + token;
         System.out.println("Redirecting to frontend: " + frontendUrl);
         response.setHeader("Location", frontendUrl);
 

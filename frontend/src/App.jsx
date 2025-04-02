@@ -7,7 +7,7 @@ import HomePage from './pages/HomePage';
 import AuthPage from "./pages/ AuthPage.jsx";
 // import LoginPage from './components/Auth/Login.jsx';
 // import RegisterPage from './components/Auth/Register.jsx';
-
+import OAuthCallback from "./components/Auth/OAuthCallback.jsx";
 import { toolRoutes } from './config/toolRegistry';
 
 // (Tùy chọn) Component trang 404
@@ -41,6 +41,7 @@ function App() {
 
         {/* Route mặc định hoặc trang 404 */}
         <Route path="*" element={<NotFoundPage />} />
+          <Route path="/auth/github/callback" element={<OAuthCallback />} />
       </Routes>
     </Router>
   );

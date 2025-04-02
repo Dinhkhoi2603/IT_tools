@@ -6,7 +6,7 @@ import { FaGithub } from "react-icons/fa";
 const AuthPage = () => {
     const [isLogin, setIsLogin] = useState(true);
     const handleGitHubLogin = () => {
-        window.location.href = "http://localhost:8080/oauth2/authorization/github"; // 🔹 URL backend GitHub login
+        window.location.href = "http://localhost:8080/oauth2/authorization/github";
     };
     return (
         <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-white to-yellow-100">

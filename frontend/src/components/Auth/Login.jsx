@@ -12,7 +12,7 @@ const Login = () => {
             const data = await login(username, password);
             localStorage.setItem("token", data.token);
             alert("Đăng nhập thành công!");
-            setTimeout(() => navigate("/"), 1500);
+            setTimeout(() => navigate("/"), 500);
         } catch (err) {
             setError("Sai tài khoản hoặc mật khẩu!");
         }
