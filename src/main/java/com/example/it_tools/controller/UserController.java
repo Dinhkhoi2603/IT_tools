@@ -11,6 +11,6 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<String> getUserProfile(@AuthenticationPrincipal UserDetails userDetails) {
-        return ResponseEntity.ok("👤 Profile of user: " + userDetails.getUsername());
+        return ResponseEntity.ok("" + userDetails.getUsername());
     }
 }
