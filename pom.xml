@@ -17,7 +17,12 @@
     <properties>
         <java.version>23</java.version>
     </properties>
-
+    <repositories>
+        <repository>
+            <id>google-libphonenumber</id>
+            <url>https://raw.githubusercontent.com/google/libphonenumber/maven-repo</url>
+        </repository>
+    </repositories>
     <dependencies>
         <!-- Spring Boot MongoDB Starter -->
         <dependency>
@@ -105,6 +110,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+            <version>9.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.iban4j</groupId>
+            <artifactId>iban4j</artifactId>
+            <version>3.2.1</version>
         </dependency>
 
     </dependencies>
