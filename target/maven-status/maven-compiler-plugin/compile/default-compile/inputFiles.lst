@@ -4,6 +4,7 @@ D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\Aut
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\GitHubAuthController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\IbanParserController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\PhoneParserController.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\MacVendorController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\UserController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\AuthResponse.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\LoginRequest.java
