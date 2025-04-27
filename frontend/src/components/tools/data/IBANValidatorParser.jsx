@@ -5,8 +5,8 @@ export const toolMeta = {
     id: "iban-validator-parser",
     name: "IBAN Validator and Parser",
     description: "Validate and parse IBAN numbers.",
-    category: "text",
-    path: "/tools/text/iban-validator-parser",
+    category: "data",
+    path: "/tools/data/iban-validator-parser",
     icon: BanknotesIcon,
     order: 5,
 };

@@ -5,8 +5,8 @@ export const toolMeta = {
     id: "phone-parser-formatter",
     name: "Phone Parser and Formatter",
     description: "Parse, validate and format phone numbers.",
-    category: "text",
-    path: "/tools/text/phone-parser-formatter",
+    category: "data",
+    path: "/tools/data/phone-parser-formatter",
     icon: PhoneIcon,
     order: 4,
 };
