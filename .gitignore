@@ -1,4 +1,10 @@
 *.log
+# Ignore Maven/Gradle output
+/target/
+/build/
+
+# Ignore compiled class files
+*.class
 
 # BlueJ files
 *.ctxt
