@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/register", "/auth/login","/auth/github/**", "/error","/api/phone/**","/api/iban/**","/api/mac/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/favorites/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2

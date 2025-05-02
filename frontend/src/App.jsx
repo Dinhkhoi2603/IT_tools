@@ -9,6 +9,7 @@ import AuthPage from "./pages/ AuthPage.jsx";
 // import RegisterPage from './components/Auth/Register.jsx';
 import OAuthCallback from "./components/Auth/OAuthCallback.jsx";
 import { toolRoutes } from './config/toolRegistry';
+import { AuthProvider } from './context/AuthContext.jsx';
 
 // (Tùy chọn) Component trang 404
 const NotFoundPage = () => (
@@ -20,30 +21,32 @@ const NotFoundPage = () => (
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Routes sử dụng MainLayout */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Routes sử dụng MainLayout */}
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<HomePage />} />
 
-          {/* ---- Tự động tạo Route cho các tools ---- */}
-          {toolRoutes.map(route => (
-            <Route key={route.path} path={route.path} element={route.element} />
-          ))}
-          {/* ----------------------------------------- */}
+            {/* ---- Tự động tạo Route cho các tools ---- */}
+            {toolRoutes.map(route => (
+              <Route key={route.path} path={route.path} element={route.element} />
+            ))}
+            {/* ----------------------------------------- */}
 
-          {/* Các trang khác trong MainLayout nếu có */}
-          {/* <Route path="/settings" element={<SettingsPage />} /> */}
-        </Route>
+            {/* Các trang khác trong MainLayout nếu có */}
+            {/* <Route path="/settings" element={<SettingsPage />} /> */}
+          </Route>
 
-        {/* Routes không sử dụng MainLayout */}
-        <Route path="/login" element={<AuthPage />} />
+          {/* Routes không sử dụng MainLayout */}
+          <Route path="/login" element={<AuthPage />} />
 
-        {/* Route mặc định hoặc trang 404 */}
-        <Route path="*" element={<NotFoundPage />} />
-          <Route path="/auth/github/callback" element={<OAuthCallback />} />
-      </Routes>
-    </Router>
+          {/* Route mặc định hoặc trang 404 */}
+          <Route path="*" element={<NotFoundPage />} />
+            <Route path="/auth/github/callback" element={<OAuthCallback />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
