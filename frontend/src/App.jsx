@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import HomePage from './pages/HomePage';
 import AuthPage from "./pages/ AuthPage.jsx";
+import AdminPage from "./pages/ AdminPage.jsx";
 // import LoginPage from './components/Auth/Login.jsx';
 // import RegisterPage from './components/Auth/Register.jsx';
 import OAuthCallback from "./components/Auth/OAuthCallback.jsx";
@@ -38,7 +39,7 @@ function App() {
 
         {/* Routes không sử dụng MainLayout */}
         <Route path="/login" element={<AuthPage />} />
-
+          <Route path="/admin" element={<AdminPage />} />
         {/* Route mặc định hoặc trang 404 */}
         <Route path="*" element={<NotFoundPage />} />
           <Route path="/auth/github/callback" element={<OAuthCallback />} />

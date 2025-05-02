@@ -3,8 +3,9 @@ D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\config\Securit
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\AuthController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\GitHubAuthController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\IbanParserController.java
-D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\PhoneParserController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\MacVendorController.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\PhoneParserController.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\ToolController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\UserController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\AuthResponse.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\LoginRequest.java
@@ -12,11 +13,13 @@ D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\RegisterRe
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\ItToolsApplication.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\model\Demo.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\model\Role.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\model\Tool.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\model\User.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\plugins\common\BasePlugin.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\plugins\common\PluginLoader.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\plugins\common\ToolInterface.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\repository\DemoRepository.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\repository\ToolRepository.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\repository\UserRepository.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\security\JwtFilter.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\security\JwtUtil.java
@@ -24,4 +27,5 @@ D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\security\UserP
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\service\AuthService.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\service\CustomUserDetailsService.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\service\DemoService.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\service\ToolService.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\util\DemoUtil.java

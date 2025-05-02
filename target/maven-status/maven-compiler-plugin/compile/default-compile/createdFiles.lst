@@ -1,5 +1,8 @@
 com\example\it_tools\service\CustomUserDetailsService.class
+com\example\it_tools\service\ToolService.class
 com\example\it_tools\service\AuthService.class
+com\example\it_tools\controller\ToolController.class
+com\example\it_tools\repository\ToolRepository.class
 com\example\it_tools\model\Role.class
 com\example\it_tools\repository\UserRepository.class
 com\example\it_tools\controller\IbanParserController.class
@@ -21,6 +24,7 @@ com\example\it_tools\model\User.class
 com\example\it_tools\security\JwtUtil.class
 com\example\it_tools\config\DemoConfig.class
 com\example\it_tools\dto\LoginRequest.class
+com\example\it_tools\model\Tool.class
 com\example\it_tools\plugins\common\BasePlugin.class
 com\example\it_tools\security\UserPrincipal.class
 com\example\it_tools\plugins\common\PluginLoader.class
