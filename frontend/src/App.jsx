@@ -9,8 +9,9 @@ import AdminPage from "./pages/ AdminPage.jsx";
 // import LoginPage from './components/Auth/Login.jsx';
 // import RegisterPage from './components/Auth/Register.jsx';
 import OAuthCallback from "./components/Auth/OAuthCallback.jsx";
-import { toolRoutes } from './config/toolRegistry';
+import { buildToolRegistry } from "./config/toolRegistry";
 import { AuthProvider } from './context/AuthContext.jsx';
+import {useEffect, useState} from "react";
 
 // (Tùy chọn) Component trang 404
 const NotFoundPage = () => (
@@ -18,10 +19,17 @@ const NotFoundPage = () => (
         <h1 className="text-4xl font-bold">404 - Not Found</h1>
     </div>
 );
-
-
 function App() {
-  return (
+    const [toolRoutes, setToolRoutes] = useState([]);
+    useEffect(() => {
+        const loadRoutes = async () => {
+            const { toolRoutes } = await buildToolRegistry();
+            setToolRoutes(toolRoutes);
+        };
+
+        loadRoutes();
+    }, []);
+    return (
     <AuthProvider>
       <Router>
         <Routes>

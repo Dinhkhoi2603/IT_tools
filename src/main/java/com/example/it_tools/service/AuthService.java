@@ -64,7 +64,6 @@ public class AuthService {
 
         logger.info("Login successful for user: {}", request.getUsername());
 
-        // 🔥 Sửa lỗi: Lấy UserDetails từ userDetailsService trước khi tạo token
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
         String token = jwtUtil.generateToken(userDetails);
 

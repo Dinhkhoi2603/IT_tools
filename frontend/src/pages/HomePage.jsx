@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
-import { tools } from '../config/toolRegistry';
+import {buildToolRegistry} from '../config/toolRegistry';
 import { useAuth } from '../context/AuthContext.jsx';
 import { getFavorites, addFavorite, removeFavorite } from '../services/favouriteService';
 
@@ -74,6 +74,7 @@ const HomePage = () => {
   const isAuthenticated = auth.isAuthenticated || false; // Add fallback for isAuthenticated
   const [favorites, setFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [tools, setTools] = useState([]);
   // Fetch user's favorites on component mount if authenticated
   useEffect(() => {
     const loadFavorites = async () => {
@@ -113,7 +114,14 @@ const HomePage = () => {
       console.error("Failed to update favorite:", error);
     }
   };
-  
+  useEffect(() => {
+    const initializeTools = async () => {
+      const { tools} = await buildToolRegistry();
+      setTools(tools);
+    };
+
+    initializeTools();
+  }, []);
   // Get favorite tools based on names
   const favoriteTools = tools.filter(tool => favorites.includes(tool.name));
   

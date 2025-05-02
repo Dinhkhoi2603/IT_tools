@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { jwtDecode } from "jwt-decode";
 const API_URL = "http://localhost:8080/auth";
 const USER_API_URL = "http://localhost:8080/user";
 export const login = async (username, password) => {
@@ -69,5 +69,14 @@ export const getUserProfile = async () => {
  */
 export const logout = () => {
     localStorage.removeItem("token");
+};
+export const extractRoleFromToken = (token) => {
+    try {
+        const decoded = jwtDecode(token);
+        return decoded.role || decoded.roles || null; // tùy vào cấu trúc token trả về
+    } catch (err) {
+        console.error("❌ Lỗi giải mã token:", err);
+        return null;
+    }
 };
 

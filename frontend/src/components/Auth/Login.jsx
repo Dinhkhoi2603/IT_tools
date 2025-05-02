@@ -1,18 +1,36 @@
 import { useState } from "react";
 import { login } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const data = await login(username, password);
             localStorage.setItem("token", data.token);
             alert("Đăng nhập thành công!");
-            setTimeout(() => navigate("/"), 500);
+
+            // 🧩 Giải mã token để lấy role
+            const decoded = jwtDecode(data.token);
+            const role = decoded?.roles[0]; // tuỳ cấu trúc token của bạn
+
+            console.log("🎯 Vai trò:", role);
+
+            // 🚀 Điều hướng theo role
+            if (role === "ROLE_ADMIN") {
+                console.log("aaaaaaaaaaaaaaaaaa");
+                navigate("/admin");
+            } else {
+                console.log("bbbbbbbbb");
+                navigate("/"); // fallback
+            }
+
         } catch (err) {
             setError("Sai tài khoản hoặc mật khẩu!");
         }

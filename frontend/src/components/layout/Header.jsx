@@ -7,7 +7,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { FiUser, FiLogOut, FiSettings, FiHelpCircle, FiBarChart } from "react-icons/fi";
-import { tools } from "../../config/toolRegistry"; // Import tools directly from registry
+import { buildToolRegistry } from "../../config/toolRegistry"; // Import tools directly from registry
 
 const Header = ({ toggleSidebar, userName, onLogout }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -20,7 +20,7 @@ const Header = ({ toggleSidebar, userName, onLogout }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [selectedResultIndex, setSelectedResultIndex] = useState(-1);
-  
+  const [tools, setTools] = useState([]);
   const displayName = userName || "User";
 
   // Handle search input change
@@ -55,7 +55,14 @@ const Header = ({ toggleSidebar, userName, onLogout }) => {
     setSearchResults(results);
     setSelectedResultIndex(-1); // Reset selection when results change
   };
+  useEffect(() => {
+    const initializeTools = async () => {
+      const { tools} = await buildToolRegistry();
+      setTools(tools);
+    };
 
+    initializeTools();
+  }, []);
   // Handle click outside of search results to close
   useEffect(() => {
     function handleClickOutside(event) {
@@ -67,7 +74,6 @@ const Header = ({ toggleSidebar, userName, onLogout }) => {
         setIsSearching(false);
       }
     }
-
     if (isSearching) {
       document.addEventListener("mousedown", handleClickOutside);
     }
@@ -161,10 +167,10 @@ const Header = ({ toggleSidebar, userName, onLogout }) => {
   }, [isDropdownOpen]);
 
   // Get the category name for a tool
-  const getCategoryName = (categoryId) => {
-    const category = categories.find(cat => cat.id === categoryId);
-    return category ? category.name : categoryId;
-  };
+  // const getCategoryName = (categoryId) => {
+  //   const category = categories.find(cat => cat.id === categoryId);
+  //   return category ? category.name : categoryId;
+  // };
 
   return (
     <header className="h-16 bg-slate-100 dark:bg-gray-900 flex items-center px-4 sm:px-6 shadow-sm border-b border-slate-200 dark:border-gray-700">
