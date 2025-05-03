@@ -33,9 +33,11 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // BẬT CORS
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register", "/auth/login","/auth/github/**", "/error","/api/phone/**","/api/iban/**","/api/mac/**").permitAll()
+                        .requestMatchers("/auth/register", "/auth/login","/auth/github/**", "/error","/api/phone/**","/api/iban/**","/api/mac/**,/api/tools/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/tools/**").hasAnyRole("ADMIN","USER")
+                        .requestMatchers("/api/favorites/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
