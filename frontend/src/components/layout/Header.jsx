@@ -7,9 +7,11 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { FiUser, FiLogOut, FiSettings, FiHelpCircle, FiBarChart } from "react-icons/fi";
-import { buildToolRegistry } from "../../config/toolRegistry"; // Import tools directly from registry
-
-const Header = ({ toggleSidebar, userName, onLogout }) => {
+import { buildToolRegistry } from "../../config/toolRegistry";
+import {FaCrown} from "react-icons/fa"; // Import tools directly from registry
+import { upgradeToPremium } from "../../services/authService.js";
+import { toast } from "react-toastify";
+const Header = ({ toggleSidebar, userName, isPremium, onLogout }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const searchInputRef = useRef(null);
@@ -22,7 +24,7 @@ const Header = ({ toggleSidebar, userName, onLogout }) => {
   const [selectedResultIndex, setSelectedResultIndex] = useState(-1);
   const [tools, setTools] = useState([]);
   const displayName = userName || "User";
-
+  const token = localStorage.getItem('token');
   // Handle search input change
   const handleSearchChange = (e) => {
     const query = e.target.value;
@@ -171,7 +173,26 @@ const Header = ({ toggleSidebar, userName, onLogout }) => {
   //   const category = categories.find(cat => cat.id === categoryId);
   //   return category ? category.name : categoryId;
   // };
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
+  const handleUpgradeClick = () => {
+    setShowUpgradeModal(true);
+  };
+  const handleUpgradePremium = async () => {
+    try {
+      // Gọi hàm nâng cấp lên Premium
+      const upgradedUser = await upgradeToPremium();
+      if (upgradedUser) {
+        console.log("Người dùng đã nâng cấp lên Premium thành công:", upgradedUser);
+        setShowUpgradeModal(false);
+        toast.success("🎉 Bạn đã nâng cấp lên Premium thành công!");
+        window.location.reload();// Đóng modal sau khi nâng cấp thành công
+        // Cập nhật UI nếu cần (ví dụ: thay đổi trạng thái người dùng, hiển thị thông báo, ...)
+      }
+    } catch (error) {
+      console.error("Lỗi khi nâng cấp lên Premium:", error);
+    }
+  };
   return (
     <header className="h-16 bg-slate-100 dark:bg-gray-900 flex items-center px-4 sm:px-6 shadow-sm border-b border-slate-200 dark:border-gray-700">
       {/* Left Side */}
@@ -293,20 +314,59 @@ const Header = ({ toggleSidebar, userName, onLogout }) => {
 
             {/* Menu Items */}
             <ul className="p-2 space-y-2">
-              <li className="flex items-center space-x-3 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
-                <FiUser /> <span>View Profile</span>
-              </li>
-              <li className="flex items-center space-x-3 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
-                <FiBarChart /> <span>Analytics & Data</span>
-              </li>
-              <li className="flex items-center space-x-3 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
-                <FiHelpCircle /> <span>Help Center</span>
-              </li>
-              <li className="flex items-center space-x-3 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
-                <FiSettings /> <span>Account Settings</span>
-              </li>
-            </ul>
+              {/*<li className="flex items-center space-x-3 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">*/}
+              {/*  <FiUser /> <span>View Profile</span>*/}
+              {/*</li>*/}
+              {/*<li className="flex items-center space-x-3 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">*/}
+              {/*  <FiBarChart /> <span>Analytics & Data</span>*/}
+              {/*</li>*/}
+              {/*<li className="flex items-center space-x-3 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">*/}
+              {/*  <FiHelpCircle /> <span>Help Center</span>*/}
+              {/*</li>*/}
+              {/*<li className="flex items-center space-x-3 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">*/}
+              {/*  <FiSettings /> <span>Account Settings</span>*/}
+              {/*</li>*/}
 
+              {/* Premium Section */}
+              {token && (
+              <li className="flex items-center space-x-3 px-4 py-2 rounded-lg">
+                {isPremium ? (
+                    <div className="flex items-center text-yellow-500 font-semibold">
+                      <FaCrown className="mr-2" />
+                      <span>Premium</span>
+                    </div>
+                ) : (
+                    <button
+                        onClick={handleUpgradeClick}
+                        className="text-blue-600 hover:underline"
+                    >
+                      Nâng cấp lên Premium
+                    </button>
+                )}
+              </li>
+              )}
+            </ul>
+            {showUpgradeModal && (
+                <div className="fixed inset-0 bg-[rgba(0,0,0,0.2)] flex items-center justify-center z-50">
+
+                <div className="bg-white rounded-lg shadow-lg p-6 w-96 relative">
+                    <button
+                        className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+                        onClick={() => setShowUpgradeModal(false)}
+                    >
+                      &times;
+                    </button>
+                    <h2 className="text-xl font-semibold mb-4">Nâng cấp Premium</h2>
+                    <p className="mb-4">Hãy nâng cấp tài khoản của bạn để truy cập tính năng cao cấp.</p>
+                  <button
+                      onClick={handleUpgradePremium}
+                      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  >
+                    Nâng cấp ngay
+                  </button>
+                  </div>
+                </div>
+            )}
             <hr className="border-gray-200 dark:border-gray-600" />
 
             {/* Logout/Login */}

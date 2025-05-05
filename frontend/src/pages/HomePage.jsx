@@ -1,49 +1,67 @@
 import React, { useState, useEffect } from 'react';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {buildToolRegistry} from '../config/toolRegistry';
 import { useAuth } from '../context/AuthContext.jsx';
 import { getFavorites, addFavorite, removeFavorite } from '../services/favouriteService';
-
+import {FaCrown} from "react-icons/fa";
+import {getUserProfile} from "../services/authService.js";
 // --- Component ToolCard ---
-const ToolCard = ({ tool, isFavorite, onToggleFavorite }) => {
+const ToolCard = ({ tool, isFavorite, onToggleFavorite, userPremium }) => {
   const IconComponent = tool.icon;
-  const auth = useAuth() || {}; // Add fallback to empty object
-  const isAuthenticated = auth.isAuthenticated || false; // Add fallback for isAuthenticated
-  
+  const auth = useAuth() || {};
+  const isAuthenticated = auth.isAuthenticated || false;
+  const navigate = useNavigate(); // dùng để điều hướng thủ công
+
   const handleFavoriteClick = (e) => {
-    // console.log(auth)
-    e.preventDefault(); // Prevent navigation to the tool page
+    e.preventDefault();
     if (!isAuthenticated) {
       alert('Please login to save favorites');
       return;
     }
     onToggleFavorite(tool.name);
   };
-  
+
+  const handleCardClick = (e) => {
+    e.preventDefault();
+    if (tool.premium && !userPremium) {
+      alert('This is a premium tool. Please upgrade to access it.');
+      return;
+    }
+    navigate(tool.path);
+  };
+
   return (
-    <Link to={tool.path} className="group block bg-white dark:bg-gray-700 p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 border border-gray-200 dark:border-gray-600">
-      <div className="flex justify-between items-start mb-3">
-        <div className="text-gray-400 dark:text-gray-500 group-hover:text-brand-green transition-colors">
-          {IconComponent ? <IconComponent className="h-6 w-6"/> : <div className="w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded"></div>}
+      <div
+          onClick={handleCardClick}
+          className="cursor-pointer group block bg-white dark:bg-gray-700 p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 border border-gray-200 dark:border-gray-600"
+      >
+        <div className="flex justify-between items-start mb-3">
+          <div className="text-gray-400 dark:text-gray-500 group-hover:text-brand-green transition-colors">
+            {IconComponent ? <IconComponent className="h-6 w-6" /> : <div className="w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded"></div>}
+          </div>
+          <button
+              className={`${isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'} opacity-0 group-hover:opacity-100 transition-opacity`}
+              onClick={handleFavoriteClick}
+          >
+            {isFavorite ? (
+                <HeartIconSolid className="h-5 w-5" />
+            ) : (
+                <HeartIcon className="h-5 w-5" />
+            )}
+          </button>
         </div>
-        <button 
-          className={`${isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'} opacity-0 group-hover:opacity-100 transition-opacity`}
-          onClick={handleFavoriteClick}
-        >
-          {isFavorite ? (
-            <HeartIconSolid className="h-5 w-5" />
-          ) : (
-            <HeartIcon className="h-5 w-5" />
+        <h3 className="font-semibold text-gray-800 dark:text-white mb-1 group-hover:text-brand-green transition-colors flex items-center">
+          {tool.name}
+          {tool.premium && (
+              <FaCrown className="h-4 w-4 text-yellow-400 ml-1" />
           )}
-        </button>
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+          {tool.description || `Handy tool for various tasks.`}
+        </p>
       </div>
-      <h3 className="font-semibold text-gray-800 dark:text-white mb-1 group-hover:text-brand-green transition-colors">{tool.name}</h3>
-      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-        {tool.description || `Handy tool for various tasks.`}
-      </p>
-    </Link>
   );
 };
 
@@ -75,6 +93,17 @@ const HomePage = () => {
   const [favorites, setFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [tools, setTools] = useState([]);
+  const [userPremium,setUserpremium] =useState(null);
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const userProfile = await getUserProfile();
+      // console.log(userProfile);
+      // console.log(userProfile.isPremium);
+      setUserpremium(userProfile.isPremium);
+    };
+
+    fetchUserProfile();
+  }, []);
   // Fetch user's favorites on component mount if authenticated
   useEffect(() => {
     const loadFavorites = async () => {
@@ -117,6 +146,7 @@ const HomePage = () => {
   useEffect(() => {
     const initializeTools = async () => {
       const { tools} = await buildToolRegistry();
+      console.log(tools);
       setTools(tools);
     };
 
@@ -143,7 +173,8 @@ const HomePage = () => {
             {favoriteTools.map(tool => (
               <ToolCard 
                 key={`fav-${tool.id}`} 
-                tool={tool} 
+                tool={tool}
+                userPremium={userPremium}
                 isFavorite={true}
                 onToggleFavorite={handleToggleFavorite} 
               />
@@ -163,7 +194,8 @@ const HomePage = () => {
           tools.map(tool => (
             <ToolCard 
               key={tool.id} 
-              tool={tool} 
+              tool={tool}
+              userPremium={userPremium}
               isFavorite={favorites.includes(tool.name)}
               onToggleFavorite={handleToggleFavorite} 
             />

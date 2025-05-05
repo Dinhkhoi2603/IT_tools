@@ -5,7 +5,7 @@ export const toolMeta = {
   id: 'chmod-calculator',
   name: 'Chmod Calculator',
   description: 'Calculate Unix file permissions',
-  category: 'dev',
+  category: 'development',
   path: '/tools/development/chmod-calculator',
   icon: CommandLineIcon,
   order: 2,

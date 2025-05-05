@@ -42,7 +42,7 @@ public class AuthService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.valueOf(String.valueOf(request.getRole())));
-
+        user.setIsPremium(request.getIsPremium());
         userRepository.save(user);
         logger.info("User registered successfully: {}", request.getUsername());
         return "User registered successfully";

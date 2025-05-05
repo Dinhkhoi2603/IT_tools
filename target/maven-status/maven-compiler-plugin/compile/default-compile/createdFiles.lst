@@ -1,3 +1,4 @@
+com\example\it_tools\service\EmailService.class
 com\example\it_tools\service\CustomUserDetailsService.class
 com\example\it_tools\service\ToolService.class
 com\example\it_tools\service\AuthService.class
@@ -11,12 +12,14 @@ com\example\it_tools\controller\PhoneParserController.class
 com\example\it_tools\dto\AuthResponse.class
 com\example\it_tools\service\DemoService.class
 com\example\it_tools\util\DemoUtil.class
+com\example\it_tools\dto\EmailResponse.class
 com\example\it_tools\repository\UserToolFavoriteRepository.class
 com\example\it_tools\dto\RegisterRequest.class
 com\example\it_tools\controller\UserController.class
 com\example\it_tools\config\SecurityConfig.class
 com\example\it_tools\service\FavoriteService.class
 com\example\it_tools\controller\MacVendorController.class
+com\example\it_tools\dto\EmailRequest.class
 com\example\it_tools\plugins\common\ToolInterface.class
 com\example\it_tools\controller\AuthController.class
 com\example\it_tools\controller\GitHubAuthController.class
@@ -26,6 +29,7 @@ com\example\it_tools\model\Demo.class
 com\example\it_tools\model\User.class
 com\example\it_tools\security\JwtUtil.class
 com\example\it_tools\config\DemoConfig.class
+com\example\it_tools\controller\EmailController.class
 com\example\it_tools\dto\LoginRequest.class
 com\example\it_tools\model\Tool.class
 com\example\it_tools\model\UserToolFavorite.class

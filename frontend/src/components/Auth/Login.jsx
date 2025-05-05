@@ -64,7 +64,7 @@ const Login = () => {
 
             {error && <p className="text-center text-red-500">{error}</p>}
 
-            <button type="submit" className="w-full bg-orange-500 text-white py-2 rounded hover:bg-blue-600">
+            <button type="submit" className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-800">
                 Đăng Nhập
             </button>
         </form>

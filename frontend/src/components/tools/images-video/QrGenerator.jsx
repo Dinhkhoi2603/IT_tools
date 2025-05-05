@@ -9,8 +9,8 @@ export const toolMeta = {
   id: 'qr-code-generator',
   name: 'QR Code Generator',
   description: 'Generate customizable QR codes',
-  category: 'imgvid',
-  path: '/tools/web/qr-code-generator',
+  category: 'images-video',
+  path: '/tools/images-video/qr-code-generator',
   icon: QrCodeIcon,
   order: 4,
 };

@@ -26,4 +26,12 @@ public class ToolService {
     public Tool updateTool(Tool tool) {
         return toolRepository.save(tool);
     }
+
+    // Thêm phương thức xóa tool
+    public void deleteTool(String id) {
+        toolRepository.deleteById(id);  // Xóa tool theo ID từ repository
+    }
+    public Tool addTool(Tool tool) {
+        return toolRepository.save(tool);
+    }
 }

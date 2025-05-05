@@ -9,7 +9,7 @@ export const toolMeta = {
   id: 'wifi-qr-generator',
   name: 'WiFi QR Generator',
   description: 'Create QR codes for WiFi networks',
-  category: 'imgvid',
+  category: 'images-video',
   path: '/tools/images-video/wifi-qr-generator',
   icon: WifiIcon,
   order: 5,

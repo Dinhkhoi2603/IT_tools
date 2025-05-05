@@ -8,7 +8,7 @@ export const toolMeta = {
   name: 'Token Generator', // Tên hiển thị trên sidebar và card
   description: 'Generate random strings, tokens, or passwords.', // Mô tả ngắn
   category: 'crypto', // ID của category (phải khớp tên thư mục cha)
-  path: '/tools/token-generator', // Đường dẫn URL cho tool này
+  path: '/tools/crypto/token-generator', // Đường dẫn URL cho tool này
   icon: KeyIcon, // Component Icon (hoặc KeySvg nếu dùng SVG)
   // order: 1, // (Tùy chọn) Thứ tự hiển thị trong category
 };

@@ -26,7 +26,8 @@ export const register = async (username, password) => {
         const requestData = JSON.stringify({
             username,
             password,
-            role: "USER" // Thêm role mặc định
+            role: "USER",
+            isPremium:"false"
         });
 
         console.log("🔵 Register Request Data:", requestData); // Log dữ liệu gửi đi
@@ -63,6 +64,29 @@ export const getUserProfile = async () => {
         return null;
     }
 };
+export const upgradeToPremium = async () => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("❌ Token không tồn tại.");
+            return null; // Nếu không có token, không thể thực hiện nâng cấp
+        }
+
+        // Gửi yêu cầu PUT để nâng cấp lên Premium
+        const response = await axios.put(`${USER_API_URL}/upgrade-to-premium`, {}, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        console.log("🟢 Upgrade to Premium Response:", response.data); // Log dữ liệu trả về từ server
+        return response.data; // Trả về dữ liệu người dùng đã được cập nhật
+    } catch (error) {
+        console.error("🔴 Upgrade to Premium Error:", error.response ? error.response.data : error);
+        throw error.response ? error.response.data : error;
+    }
+};
 
 /**
  * Đăng xuất người dùng (Xóa token khỏi localStorage)
@@ -79,4 +103,5 @@ export const extractRoleFromToken = (token) => {
         return null;
     }
 };
+
 
