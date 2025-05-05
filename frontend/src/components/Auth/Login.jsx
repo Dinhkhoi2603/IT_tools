@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { login } from "../../services/authService";
+import { getUserProfile, login } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const { setUser, setIsAuthenticated } = useAuth();
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -19,6 +22,10 @@ const Login = () => {
             // 🧩 Giải mã token để lấy role
             const decoded = jwtDecode(data.token);
             const role = decoded?.roles[0]; // tuỳ cấu trúc token của bạn
+
+            setIsAuthenticated(true);
+            const userdata = await getUserProfile(); // Lấy thông tin người dùng từ API
+            setUser(userdata); // Cập nhật thông tin người dùng vào context
 
             console.log("🎯 Vai trò:", role);
 
