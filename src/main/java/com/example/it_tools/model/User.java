@@ -14,5 +14,14 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private Boolean isPremium;
     private Role role; // Dùng ENUM thay vì Set<Role>
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean isPremium) {
+        this.isPremium = isPremium;
+    }
 }

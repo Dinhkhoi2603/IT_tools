@@ -93,7 +93,7 @@ const Register = () => {
             )}
 
             {/* Nút đăng ký */}
-            <button type="submit" className="w-full bg-orange-500 text-white py-2 rounded hover:bg-orange-600">
+            <button type="submit" className="w-full w-full bg-green-600 text-white py-2 rounded hover:bg-green-800">
                 Đăng Ký
             </button>
         </form>

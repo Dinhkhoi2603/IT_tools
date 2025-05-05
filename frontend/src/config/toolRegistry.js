@@ -17,12 +17,11 @@ export const categories = [
 // Tìm tất cả các file tool
 const toolModules = import.meta.glob('/src/components/tools/*/*.{jsx,tsx}', { eager: true });
 
-async function fetchEnabledToolIds(token) {
+async function fetchAllTools() {
     try {
         const res = await fetch('http://localhost:8080/api/tools', {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -31,40 +30,44 @@ async function fetchEnabledToolIds(token) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
 
-        const data = await res.json(); // [{ id, enabled }]
-        return data.filter(tool => tool.enabled).map(tool => tool.path); // Lấy danh sách toolId được bật
+        const data = await res.json(); // [{ id, path, enabled, isPremium, ... }]
+        return data;
     } catch (err) {
         console.error('Failed to fetch tool registry:', err);
-        return []; // fallback: không có tool nào
+        return [];
     }
 }
+
 
 // Khởi tạo tools ngay khi module được import
 export async function buildToolRegistry() {
     const token = localStorage.getItem('token');
-    const enabledToolIds = await fetchEnabledToolIds(token);
+    const allToolsFromServer = await fetchAllTools(token);
+
+    const enabledToolPaths = allToolsFromServer
+        .filter(tool => tool.enabled)
+        .map(tool => tool.path);
+
     const discoveredTools = Object.entries(toolModules).map(([filePath, module]) => {
+        if (!module || !module.toolMeta || !module.default) return null;
+
         const path = module.toolMeta.path;
-        if (!enabledToolIds.includes(path))
-        {
-            console.log(1);
-            return null;
-        }
-        if (module && module.toolMeta && module.default) {
+        if (!enabledToolPaths.includes(path)) return null;
 
-            const expectedCategory = filePath.split('/')[4]; // Lấy tên thư mục category
-            if (module.toolMeta.category !== expectedCategory) {
-                console.warn(`Tool at ${filePath} has category mismatch: expected '${expectedCategory}', found '${module.toolMeta.category}'.`);
-            }
-
-            return {
-                ...module.toolMeta,
-                component: module.default, // Lấy component từ default export
-            };
+        const expectedCategory = filePath.split('/')[4];
+        if (module.toolMeta.category !== expectedCategory) {
+            // console.warn(`Tool at ${filePath} has category mismatch...`);
         }
-        console.warn(`Tool file at ${filePath} is missing 'toolMeta' or default export.`);
-        return null;
-    }).filter(Boolean); // Lọc bỏ những entry null (file không hợp lệ)
+
+        // Tìm tool tương ứng từ server để lấy thông tin isPremium
+        const serverTool = allToolsFromServer.find(t => t.path === path);
+
+        return {
+            ...module.toolMeta,
+            component: module.default,
+            premium: serverTool?.premium || false, // mặc định là false nếu không có
+        };
+    }).filter(Boolean);
 
     const tools = discoveredTools.sort((a, b) => {
         const orderDiff = (a.order || 0) - (b.order || 0);
@@ -78,10 +81,9 @@ export async function buildToolRegistry() {
 
     const toolRoutes = tools.map(tool => ({
         path: tool.path,
-        element: React.createElement(tool.component) // Dùng createElement khi import eager
+        element: React.createElement(tool.component)
     }));
 
-    // Trả về các giá trị đã khởi tạo
     return { tools, toolRoutes, getToolsByCategory };
 }
 

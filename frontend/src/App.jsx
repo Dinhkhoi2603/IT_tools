@@ -12,7 +12,8 @@ import OAuthCallback from "./components/Auth/OAuthCallback.jsx";
 import { buildToolRegistry } from "./config/toolRegistry";
 import { AuthProvider } from './context/AuthContext.jsx';
 import {useEffect, useState} from "react";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // (Tùy chọn) Component trang 404
 const NotFoundPage = () => (
     <div className="flex items-center justify-center h-screen">
@@ -32,6 +33,7 @@ function App() {
     return (
     <AuthProvider>
       <Router>
+          <ToastContainer position="top-center" autoClose={2500} />
         <Routes>
           {/* Routes sử dụng MainLayout */}
           <Route element={<MainLayout />}>

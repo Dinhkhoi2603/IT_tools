@@ -44,4 +44,21 @@ public class ToolController {
 
         return ResponseEntity.ok(toolService.updateTool(tool));
     }
+
+    // Thêm hàm xóa tool
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTool(@PathVariable("id") String id) {
+        Optional<Tool> optionalTool = toolService.getById(id);
+        if (optionalTool.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        toolService.deleteTool(id); // Gọi service để xóa tool
+        return ResponseEntity.noContent().build(); // Trả về 204 No Content nếu xóa thành công
+    }
+    @PostMapping
+    public ResponseEntity<Tool> addTool(@RequestBody Tool tool) {
+        Tool createdTool = toolService.addTool(tool);
+        return ResponseEntity.ok(createdTool);
+    }
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Login from "../components/Auth/Login";
 import Register from "../components/Auth/Register";
-import logo from "../assets/logo_it_tools.png";
+import logo from "../assets/logo_it_tools_2.png";
 import { FaGithub } from "react-icons/fa";
 const AuthPage = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -9,7 +9,7 @@ const AuthPage = () => {
         window.location.href = "http://localhost:8080/oauth2/authorization/github";
     };
     return (
-        <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-white to-yellow-100">
+        <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-white to-green-200">
             {/* Logo */}
             <img
                 src={logo}  // Cập nhật đường dẫn logo
@@ -25,13 +25,13 @@ const AuthPage = () => {
 
                 {isLogin ? <Login /> : <Register />}
 
-                {isLogin && (
-                    <div className="flex justify-end mt-4">
-                        <a href="#" className="text-blue-500 hover:underline">
-                            Forgot password?
-                        </a>
-                    </div>
-                )}
+                {/*{isLogin && (*/}
+                {/*    <div className="flex justify-end mt-4">*/}
+                {/*        <a href="#" className="text-blue-500 hover:underline">*/}
+                {/*            Forgot password?*/}
+                {/*        </a>*/}
+                {/*    </div>*/}
+                {/*)}*/}
 
                 {/* Chuyển đổi giữa Đăng nhập & Đăng ký */}
                 <p className="text-center mt-4">

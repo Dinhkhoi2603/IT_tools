@@ -1,6 +1,7 @@
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\config\DemoConfig.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\config\SecurityConfig.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\AuthController.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\EmailController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\FavoriteController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\GitHubAuthController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\IbanParserController.java
@@ -9,6 +10,8 @@ D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\Pho
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\ToolController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\controller\UserController.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\AuthResponse.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\EmailRequest.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\EmailResponse.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\LoginRequest.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\dto\RegisterRequest.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\ItToolsApplication.java
@@ -30,6 +33,7 @@ D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\security\UserP
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\service\AuthService.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\service\CustomUserDetailsService.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\service\DemoService.java
+D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\service\EmailService.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\service\FavoriteService.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\service\ToolService.java
 D:\3-HK2\TKPM\Project\IT_tools\src\main\java\com\example\it_tools\util\DemoUtil.java

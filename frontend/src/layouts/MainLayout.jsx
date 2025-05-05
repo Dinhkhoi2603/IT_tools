@@ -6,11 +6,15 @@ import { Outlet } from "react-router-dom";
 import { getUserProfile } from "../services/authService";
 const MainLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // mở sẵn
-    const [user, setUser] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [userPremium,setUserpremium] =useState(null);
     useEffect(() => {
         const fetchUserProfile = async () => {
             const userProfile = await getUserProfile();
-            setUser(userProfile); // Cập nhật thông tin người dùng
+            // console.log(userProfile);
+            setUsername(userProfile.username);
+            // console.log(userProfile.isPremium);
+            setUserpremium(userProfile.isPremium);
         };
 
         fetchUserProfile();
@@ -36,7 +40,7 @@ const MainLayout = ({ children }) => {
           `}
       >
         {/* Header nhận toggleSidebar */}
-        <Header toggleSidebar={toggleSidebar} userName={user}/>
+        <Header toggleSidebar={toggleSidebar} userName={username} isPremium={userPremium}/>
 
         {/* Page Content */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-[#F1F5F9] dark:bg-gray-800 p-6">

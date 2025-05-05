@@ -7,7 +7,7 @@ export const toolMeta = {
   id: 'svg-placeholder',
   name: 'SVG Placeholder',
   description: 'Generate custom SVG placeholders for your applications',
-  category: 'imgvid',
+  category: 'images-video',
   path: '/tools/images-video/svg-placeholder',
   icon: PhotoIcon,
   order: 6,

@@ -13,7 +13,51 @@ const AdminPage = () => {
     const [pendingAction, setPendingAction] = useState(null);
 
     const token = localStorage.getItem('token');
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [newTool, setNewTool] = useState({
+        name: '',
+        category: '',
+        description: '',
+        path: '',
+        order: 1,
+        enabled: false,
+        premium: false,
+        _class: 'com.example.it_tools.model.Tool'
+    });
+    const generatePath = (name, category) => {
+        const formattedName = name.toLowerCase().replace(/\s+/g, '-'); // Chuyển name thành chữ thường và thay thế khoảng trắng bằng dấu gạch
+        const formattedCategory = category.toLowerCase(); // Chuyển category thành chữ thường
+        return `/tools/${formattedCategory}/${formattedName}`;
+    };
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewTool((prevTool) => {
+            const updatedTool = { ...prevTool, [name]: value };
 
+            // Cập nhật path khi name hoặc category thay đổi
+            if (name === 'name' || name === 'category') {
+                updatedTool.path = generatePath(updatedTool.name, updatedTool.category);
+            }
+
+            return updatedTool;
+        });
+    };
+    const handleAddTool = async () => {
+        try {
+            const res = await axios.post('http://localhost:8080/api/tools', newTool, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setTools(prev => [...prev, res.data]);
+            triggerNotification('Thêm tool thành công!');
+            setShowAddModal(false);
+            setNewTool({ name: '', category: '', enabled: false, premium: false });
+        } catch (err) {
+            console.error('Add tool failed:', err);
+            triggerNotification('Thêm tool thất bại!');
+        }
+    };
     useEffect(() => {
         fetchTools();
     }, []);
@@ -81,6 +125,22 @@ const AdminPage = () => {
             setShowNotification(false);
         }, 2000);
     };
+    const handleDelete = async (toolId) => {
+        try {
+            await axios.delete(`http://localhost:8080/api/tools/${toolId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            setTools(prev => prev.filter(t => t.toolId !== toolId));
+            triggerNotification('Xóa công cụ thành công!');
+        } catch (err) {
+            console.error('Delete failed:', err);
+            triggerNotification('Xóa công cụ thất bại!');
+        }
+    };
+
 
     const confirmYes = () => {
         if (pendingAction) pendingAction();
@@ -98,6 +158,15 @@ const AdminPage = () => {
             <Header />
             <main className="flex-1 p-6">
                 <h2 className="text-2xl font-bold mb-4">Admin Tool Management</h2>
+                <div className="mb-4 flex justify-end">
+                    <button
+                        onClick={() => setShowAddModal(true)}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    >
+                        Thêm tool
+                    </button>
+                </div>
+
                 <div className="overflow-x-auto">
                     <table className="min-w-full border border-gray-300">
                         <thead className="bg-gray-100">
@@ -106,6 +175,8 @@ const AdminPage = () => {
                             <th className="px-4 py-2 border">Category</th> {/* Thêm cột Category */}
                             <th className="px-4 py-2 border">Enabled</th>
                             <th className="px-4 py-2 border">Premium</th>
+                            <th className="px-4 py-2 border">Xóa</th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -143,6 +214,20 @@ const AdminPage = () => {
                                         </div>
                                     </label>
                                 </td>
+                                <td className="px-4 py-2 border">
+                                    <button
+                                        onClick={() => {
+                                            setConfirmMessage('Bạn có chắc chắn muốn xóa công cụ này không?');
+                                            setPendingAction(() => () => handleDelete(tool.toolId));
+                                            setShowConfirm(true);
+                                        }}
+                                        className="text-red-600 hover:underline"
+                                    >
+                                        Xóa
+                                    </button>
+                                </td>
+
+
                             </tr>
                         ))}
                         </tbody>
@@ -182,6 +267,74 @@ const AdminPage = () => {
                     </div>
                 </div>
             )}
+            {showAddModal && (
+                <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg shadow-lg px-6 py-5 w-full max-w-md animate-fade-in">
+                        <h3 className="text-lg font-semibold mb-4">Thêm Tool Mới</h3>
+                        <div className="space-y-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Tên tool</label>
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Tên tool"
+                                value={newTool.name}
+                                onChange={handleInputChange}
+                                className="w-full border px-3 py-2 rounded"
+                            />
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Loại</label>
+                            <input
+                                type="text"
+                                name="category"
+                                placeholder="Category"
+                                value={newTool.category}
+                                onChange={handleInputChange}
+                                className="w-full border px-3 py-2 rounded"
+                            />
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Mô tả</label>
+                            <input
+                                type="text"
+                                placeholder="Description"
+                                value={newTool.description}
+                                onChange={(e) => setNewTool({ ...newTool, description: e.target.value })}
+                                className="w-full border px-3 py-2 rounded"
+                            />
+                            <div className="flex items-center gap-4">
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={newTool.enabled}
+                                        onChange={(e) => setNewTool({ ...newTool, enabled: e.target.checked })}
+                                    />
+                                    Enabled
+                                </label>
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={newTool.premium}
+                                        onChange={(e) => setNewTool({ ...newTool, premium: e.target.checked })}
+                                    />
+                                    Premium
+                                </label>
+                            </div>
+                            <div className="flex justify-end gap-3">
+                                <button
+                                    onClick={() => setShowAddModal(false)}
+                                    className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                                >
+                                    Hủy
+                                </button>
+                                <button
+                                    onClick={handleAddTool}
+                                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                >
+                                    Tạo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

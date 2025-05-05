@@ -6,7 +6,7 @@ export const toolMeta = {
   id: 'regex-tester',
   name: 'Regex Tester',
   description: 'Test and debug regular expressions',
-  category: 'dev',
+  category: 'development',
   path: '/tools/development/regex-tester',
   icon: CodeBracketSquareIcon,
   order: 3,

@@ -6,8 +6,8 @@ export const toolMeta = {
   id: 'json-formatter',
   name: 'JSON Formatter',
   description: 'Format and beautify JSON data',
-  category: 'dev',
-  path: '/tools/developer/json-formatter',
+  category: 'development',
+  path: '/tools/development/json-formatter',
   icon: CodeBracketIcon,
   order: 1,
 };
