@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../components/layout/AdminHeader';
 import Footer from '../components/layout/AdminFooter';
+import { useRef } from 'react';
 
 const AdminPage = () => {
     const [tools, setTools] = useState([]);
@@ -11,6 +12,10 @@ const AdminPage = () => {
     const [notificationMessage, setNotificationMessage] = useState('');
     const [confirmMessage, setConfirmMessage] = useState('');
     const [pendingAction, setPendingAction] = useState(null);
+    // New state for file upload
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [fileError, setFileError] = useState('');
+    const fileInputRef = useRef(null);
 
     const token = localStorage.getItem('token');
     const [showAddModal, setShowAddModal] = useState(false);
@@ -24,11 +29,13 @@ const AdminPage = () => {
         premium: false,
         _class: 'com.example.it_tools.model.Tool'
     });
+    
     const generatePath = (name, category) => {
         const formattedName = name.toLowerCase().replace(/\s+/g, '-'); // Chuyển name thành chữ thường và thay thế khoảng trắng bằng dấu gạch
         const formattedCategory = category.toLowerCase(); // Chuyển category thành chữ thường
         return `/tools/${formattedCategory}/${formattedName}`;
     };
+    
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewTool((prevTool) => {
@@ -42,22 +49,86 @@ const AdminPage = () => {
             return updatedTool;
         });
     };
+    
+    // Handle file selection
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setFileError('');
+        
+        if (!file) {
+            setSelectedFile(null);
+            return;
+        }
+        
+        // Validate file type
+        if (!file.name.endsWith('.js') && !file.name.endsWith('.jsx')) {
+            setFileError('Only .js or .jsx files are allowed');
+            setSelectedFile(null);
+            return;
+        }
+        
+        // Check file size (max 500KB)
+        if (file.size > 500 * 1024) {
+            setFileError('File size must be less than 500KB');
+            setSelectedFile(null);
+            return;
+        }
+        
+        setSelectedFile(file);
+    };
+    
     const handleAddTool = async () => {
         try {
-            const res = await axios.post('http://localhost:8080/api/tools', newTool, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setTools(prev => [...prev, res.data]);
-            triggerNotification('Thêm tool thành công!');
+            // Check if file is selected when adding a new tool
+            if (selectedFile) {
+                // Create form data to send both tool info and file
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('tool', JSON.stringify(newTool));
+                
+                // Send API request with multipart form data
+                const res = await axios.post('http://localhost:8080/api/tools/upload', formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    },
+                });
+                
+                setTools(prev => [...prev, res.data]);
+                triggerNotification('Thêm tool thành công!');
+            } else {
+                // Original functionality without file upload
+                const res = await axios.post('http://localhost:8080/api/tools', newTool, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setTools(prev => [...prev, res.data]);
+                triggerNotification('Thêm tool thành công!');
+            }
+            
+            // Reset form
             setShowAddModal(false);
-            setNewTool({ name: '', category: '', enabled: false, premium: false });
+            setNewTool({
+                name: '',
+                category: '',
+                description: '',
+                path: '',
+                order: 1,
+                enabled: false,
+                premium: false,
+                _class: 'com.example.it_tools.model.Tool'
+            });
+            setSelectedFile(null);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
         } catch (err) {
             console.error('Add tool failed:', err);
-            triggerNotification('Thêm tool thất bại!');
+            triggerNotification('Thêm tool thất bại: ' + (err.response?.data?.message || err.message));
         }
     };
+    
     useEffect(() => {
         fetchTools();
     }, []);
@@ -125,6 +196,7 @@ const AdminPage = () => {
             setShowNotification(false);
         }, 2000);
     };
+    
     const handleDelete = async (toolId) => {
         try {
             await axios.delete(`http://localhost:8080/api/tools/${toolId}`, {
@@ -298,6 +370,37 @@ const AdminPage = () => {
                                 onChange={(e) => setNewTool({ ...newTool, description: e.target.value })}
                                 className="w-full border px-3 py-2 rounded"
                             />
+                            
+                            {/* New File Upload Section */}
+                            <div className="border-t pt-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Tool Implementation File (.jsx)
+                                </label>
+                                
+                                {newTool.category && (
+                                    <div className="text-xs text-gray-500 mb-2">
+                                        File will be uploaded to: <span className="font-mono">src/components/tools/{newTool.category.toLowerCase()}</span>
+                                    </div>
+                                )}
+                                
+                                <input
+                                    type="file"
+                                    accept=".js,.jsx"
+                                    ref={fileInputRef}
+                                    onChange={handleFileChange}
+                                    className="w-full text-sm text-gray-500
+                                            file:mr-4 file:py-2 file:px-4
+                                            file:rounded file:border-0
+                                            file:text-sm file:font-semibold
+                                            file:bg-blue-50 file:text-blue-700
+                                            hover:file:bg-blue-100"
+                                />
+                                
+                                {fileError && (
+                                    <p className="text-red-500 text-xs mt-1">{fileError}</p>
+                                )}
+                            </div>
+                            
                             <div className="flex items-center gap-4">
                                 <label className="flex items-center gap-2">
                                     <input
@@ -334,7 +437,6 @@ const AdminPage = () => {
                     </div>
                 </div>
             )}
-
         </div>
     );
 };

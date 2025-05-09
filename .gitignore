@@ -3,6 +3,11 @@
 /target/
 /build/
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
 # Ignore compiled class files
 *.class
 
